@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Gestión de Bandas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="bi bi-music-note-beamed"></i> Música App
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" th:href="@{/}">
+                    <i class="bi bi-house me-1"></i>Inicio
+                </a>
+                <a class="nav-link active" th:href="@{/bandas}">
+                    <i class="bi bi-people-fill me-1"></i>Bandas
+                </a>
+                <a class="nav-link" th:href="@{/canciones}">
+                    <i class="bi bi-music-note-list me-1"></i>Canciones
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Header y botón nuevo -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3">
+                <i class="bi bi-people-fill text-primary me-2"></i>
+                <span th:text="${titulo}">Gestión de Bandas</span>
+            </h1>
+            <a th:href="@{/bandas/nuevo}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i>Nueva Banda
+            </a>
+        </div>
+
+        <!-- Alertas -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Tabla de bandas -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div th:if="${bandas.empty}" class="text-center py-4">
+                    <i class="bi bi-inbox display-1 text-muted"></i>
+                    <h4 class="text-muted mt-3">No hay bandas registradas</h4>
+                    <p class="text-muted">Comienza agregando tu primera banda.</p>
+                    <a th:href="@{/bandas/nuevo}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i>Agregar Banda
+                    </a>
+                </div>
+
+                <div th:unless="${bandas.empty}" class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Género</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="banda : ${bandas}">
+                                <td th:text="${banda.idBanda}"></td>
+                                <td th:text="${banda.nombre}"></td>
+                                <td th:text="${banda.genero}"></td>
+								<td>
+								    <span th:if="${banda.estado.name() == 'ACTIVO'}" 
+								          class="badge bg-success p-2" title="Activo">
+								        <i class="bi bi-circle-fill"></i>
+								    </span>
+								    <span th:if="${banda.estado.name() == 'INACTIVO'}" 
+								          class="badge bg-danger p-2" title="Inactivo">
+								        <i class="bi bi-circle-fill"></i>
+								    </span>
+								</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a th:href="@{/bandas/{id}(id=${banda.idBanda})}" 
+                                           class="btn btn-outline-info" 
+                                           title="Ver detalle">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a th:href="@{/bandas/editar/{id}(id=${banda.idBanda})}" 
+                                           class="btn btn-outline-primary" 
+                                           title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a th:href="@{/bandas/eliminar/{id}(id=${banda.idBanda})}" 
+                                           class="btn btn-outline-danger" 
+                                           title="Eliminar"
+                                           onclick="return confirm('¿Estás seguro de eliminar esta banda?')">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

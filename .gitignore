@@ -1,0 +1,49 @@
+HELP.md
+target/
+out/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+*.class
+*.log
+*.jar
+*.war
+/.settings/
+/.project
+.classpath
+/.idea/
+*.iml
+.DS_Store
+.env
+# Si quieres evitar subir credenciales locales:
+src/main/resources/application.properties
+target/classes/application.properties
